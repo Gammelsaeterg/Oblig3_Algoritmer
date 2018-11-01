@@ -7,111 +7,93 @@
 using namespace std;
 
 
-const int ARRAYSIZE = 100;
-
-
-//void skrivtab(int tab[], int n)
-//{
-//    for (int k=0; k<n; k++)
-//        cout << tab[k] << ", ";
-
-//    cout << "trykk en tast" << endl;
-//    getch();
-//}
-
-
-void MergeSort(int* tab, int n)
+template <typename T>
+void MergeSort(vector<T> &VectorIn, unsigned int VectorSize)
 {
-    int i, j, k, lower1, lower2, size, upper1, upper2;
-    int hjelp[ARRAYSIZE];
+    unsigned int i, j, k, Lower1, Lower2, Size, Upper1, Upper2;
+    vector<T> ExtraVector;
+    ExtraVector.resize(VectorSize);
 
-//    skrivtab(tab, n);
-
-    size = 1;
-    while (size < n)
+    Size = 1;
+    while (Size < VectorSize)
     {
-           lower1 = 0;
+           Lower1 = 0;
            k = 0;
-           while (lower1+size < n)
+           while (Lower1+Size < VectorSize)
            {
-              upper1 = lower1+size-1;
-              lower2 = upper1+1;
-              upper2 = (lower2+size-1 < n) ? lower2+size-1 : n-1;
-              for (i=lower1, j=lower2; i<=upper1 && j<=upper2; k++)
-                 if (tab[i] < tab[j])
-                    hjelp[k]=tab[i++];
+              Upper1 = Lower1 + Size - 1;
+              Lower2 = Upper1 + 1;
+              Upper2 = (Lower2 + Size-1 < VectorSize) ? Lower2 + Size - 1 : VectorSize - 1;
+              for (i=Lower1, j=Lower2; i<=Upper1 && j<=Upper2; k++)
+                 if (VectorIn[i] < VectorIn[j])
+                    ExtraVector[k]=VectorIn[i++];
                  else
-                    hjelp[k] = tab[j++];
+                    ExtraVector[k] = VectorIn[j++];
 
-              for (; i<=upper1; k++)
-                 hjelp[k] = tab[i++];
-              for (; j<=upper2; k++)
-                 hjelp[k] = tab[j++];
+              for (; i<=Upper1; k++)
+                 ExtraVector[k] = VectorIn[i++];
+              for (; j<=Upper2; k++)
+                 ExtraVector[k] = VectorIn[j++];
 
-              lower1 = upper2+1;
+              Lower1 = Upper2+1;
            } // endwhile
 
-           for (i=lower1; k<n; i++)
-              hjelp[k++] = tab[i];
-           for (i=0; i<n; i++)
-              tab[i] = hjelp[i];
+           for (i=Lower1; k<VectorSize; i++)
+              ExtraVector[k++] = VectorIn[i];
+           for (i=0; i<VectorSize; i++)
+              VectorIn[i] = ExtraVector[i];
 
-           size = size*2;
+           Size = Size*2;
 
-           //skrivtab(tab, n);
-       } //endwhile
+       }
 }
 
-
-void InsertionSort(int arr[], int n)
+template <typename T>
+void InsertionSort(vector<T> &VectorIn, unsigned int VectorSize)
 {
-   int i, key, j;
-   for (i = 1; i < n; i++)
+   int key, j;
+   for (unsigned int i = 1; i < VectorSize; i++)
    {
-       key = arr[i];
-       j = i-1;
+       key = VectorIn[i];
+       j = static_cast<int>(i) - 1;
 
-       while (j >= 0 && arr[j] > key)
+       while (j >= 0 && VectorIn[j] > key)
        {
-           arr[j+1] = arr[j];
-           j = j-1;
+           VectorIn[j + 1] = VectorIn[j];
+           j = j - 1;
        }
-       arr[j+1] = key;
+       VectorIn[j + 1] = key;
    }
 }
 
-void SelectionSort()
+template <typename T>
+void SelectionSort(vector<T> &VectorIn, unsigned int VectorSize)
 {
-    const int length = 5;
-    int array[length] = { 30, 50, 20, 10, 40 };
 
-    // Step through each element of the array
-    // (except the last one, which will already be sorted by the time we get there)
-    for (int startIndex = 0; startIndex < length - 1; ++startIndex)
+    for (unsigned int StartIndex = 0; StartIndex < VectorSize - 1; ++StartIndex)
     {
 
-        int smallestIndex = startIndex;
+        unsigned int SmallestIndex = StartIndex;
 
-        for (int currentIndex = startIndex + 1; currentIndex < length; ++currentIndex)
+        for (unsigned int currentIndex = StartIndex + 1; currentIndex < VectorSize; ++currentIndex)
         {
 
-            if (array[currentIndex] < array[smallestIndex])
+            if (VectorIn[currentIndex] < VectorIn[SmallestIndex])
 
-                smallestIndex = currentIndex;
+                SmallestIndex = currentIndex;
         }
 
-        std::swap(array[startIndex], array[smallestIndex]);
+        std::swap(VectorIn[StartIndex], VectorIn[SmallestIndex]);
     }
 
-    for (int index = 0; index < length; ++index)
-        std::cout << array[index] << ' ';
+    for (unsigned int Index = 0; Index < VectorSize; ++Index)
+        std::cout << VectorIn[Index] << ' ';
 }
 
 template <typename T>
 vector<T> RandomVector(int VectorSize)
 {
     vector<T> VectorToReturn;
-    //VectorToReturn.resize(static_cast<unsigned int>(VectorSize));
 
     for (int i = 0; i < VectorSize; ++i)
     {
@@ -126,14 +108,61 @@ vector<T> RandomVector(int VectorSize)
 
 int main()
 {
-    int OurRandomVectorSize = 30;
-    vector<int> OurRandomVector = RandomVector<int>(OurRandomVectorSize);
+    int OurVectorSize = 10;
+    vector<int> OurVector = RandomVector<int>(OurVectorSize);
 
-    for (auto VectorNum : OurRandomVector)
+    // Merge sort
+    cout << "\nAfter new shuffle: ";
+    for (auto VectorNum : OurVector)
     {
         cout << VectorNum << ", ";
     }
+    cout << endl;
 
+    cout << "\nAfter sorting with merge sort: ";
+
+    MergeSort(OurVector, OurVector.size());
+    for (auto VectorNum : OurVector)
+    {
+        cout << VectorNum << ", ";
+    }
+    cout << endl;
+
+
+    // Selection sort
+    cout << "\nAfter new shuffle: ";
+    OurVector = RandomVector<int>(OurVectorSize);
+    for (auto VectorNum : OurVector)
+    {
+        cout << VectorNum << ", ";
+    }
+    cout << endl;
+
+    cout << "\nAfter sorting with selection sort: ";
+    SelectionSort(OurVector, OurVector.size());
+    for (auto VectorNum : OurVector)
+    {
+        cout << VectorNum << ", ";
+    }
+    cout << endl;
+
+
+    // Insertion sort
+    cout << "\nAfter new shuffle: ";
+    OurVector = RandomVector<int>(OurVectorSize);
+    for (auto VectorNum : OurVector)
+    {
+        cout << VectorNum << ", ";
+    }
+    cout << endl;
+
+    cout << "\nAfter sorting with insertion sort: ";
+    InsertionSort(OurVector, OurVector.size());
+    for (auto VectorNum : OurVector)
+    {
+        cout << VectorNum << ", ";
+    }
+    cout << endl;
 
     return 0;
 }
