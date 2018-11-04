@@ -3,6 +3,7 @@
 #include <ctime>
 #include <vector>
 #include <algorithm>
+#include <iomanip>
 
 #include "binarynode.h"
 
@@ -135,10 +136,6 @@ vector<T> RandomVector(int VectorSize)
 
 int main()
 {
-    int OurVectorSize = static_cast<int>(pow(10, 4));
-    vector<int> OurVector = RandomVector<int>(OurVectorSize);
-    vector<int> OriginalVector = OurVector;
-
     ////  Example print
     //    for (auto VectorNum : OurVector)
     //    {
@@ -146,53 +143,80 @@ int main()
     //    }
 
 
-    cout << "Merge sort: ";
-    clock_t Begin1 = clock();
-    MergeSort(OurVector, OurVector.size());
-    clock_t End1 = clock();
-    double ElapsedSecsMerge = double(End1 - Begin1) / CLOCKS_PER_SEC;
-    cout << endl << "Time elapsed: " << ElapsedSecsMerge << endl;
+    cout << "Heap sort: ";
+    int PowerTo = 8;
+    for (int i = 1; i < PowerTo; ++i)
+    {
+        int OurVectorSize = static_cast<int>(pow(10, i));
+        vector<int> OurVector = RandomVector<int>(OurVectorSize);
+        clock_t Begin = clock();
+        HeapSort(OurVector);
+        clock_t End = clock();
+        double ElapsedSecs = double(End - Begin) / CLOCKS_PER_SEC;
+        cout << "Time to sort with 10 power to: " << i;
+        cout << endl << "Time elapsed: " << setprecision(5) << ElapsedSecs << endl;
+    }
 
 
-    cout << "\nInsertion sort: ";
-    OurVector = OriginalVector;
-    clock_t Begin2 = clock();
-    InsertionSort(OurVector, OurVector.size());
-    clock_t End2 = clock();
-    double ElapsedSecsInsertion = double(End2 - Begin2) / CLOCKS_PER_SEC;
-    cout << endl << "Time elapsed: " << ElapsedSecsInsertion << endl;
 
 
-    cout << "\nSelection sort: ";
-    OurVector = OriginalVector;
-    clock_t Begin3 = clock();
-    SelectionSort(OurVector, OurVector.size());
-    clock_t End3 = clock();
-    double ElapsedSecsSelection = double(End3 - Begin3) / CLOCKS_PER_SEC;
-    cout << endl << "Time elapsed: " << ElapsedSecsSelection << endl;
 
 
-    cout << "\nStandard library sort: ";
-    OurVector = OriginalVector;
-    clock_t Begin4 = clock();
-    SelectionSort(OurVector, OurVector.size());
-    clock_t End4 = clock();
-    double ElapsedSecsStandardLibrary = double(End4 - Begin4) / CLOCKS_PER_SEC;
-    cout << endl << "Time elapsed: " << ElapsedSecsStandardLibrary << endl;
+
+////  All sorts
+
+//    int Power = 1;
+//    int OurVectorSize = static_cast<int>(pow(10, Power));
+//    vector<int> OurVector = RandomVector<int>(OurVectorSize);
+//    vector<int> OriginalVector = OurVector;
+
+//    cout << "Merge sort: ";
+//    clock_t Begin1 = clock();
+//    MergeSort(OurVector, OurVector.size());
+//    clock_t End1 = clock();
+//    double ElapsedSecsMerge = double(End1 - Begin1) / CLOCKS_PER_SEC;
+//    cout << endl << "Time elapsed: " << ElapsedSecsMerge << endl;
 
 
-    cout << "\nBinary search tree sort: ";
-    OurVector = OriginalVector;
-    BinarySearchTreeSort(OurVector);
+//    cout << "\nInsertion sort: ";
+//    OurVector = OriginalVector;
+//    clock_t Begin2 = clock();
+//    InsertionSort(OurVector, OurVector.size());
+//    clock_t End2 = clock();
+//    double ElapsedSecsInsertion = double(End2 - Begin2) / CLOCKS_PER_SEC;
+//    cout << endl << "Time elapsed: " << ElapsedSecsInsertion << endl;
 
 
-    cout << "\nHeap sort: ";
-    OurVector = OriginalVector;
-    clock_t Begin5 = clock();
-    HeapSort(OurVector);
-    clock_t End5 = clock();
-    double ElapsedSecsHeap = double(End5 - Begin5) / CLOCKS_PER_SEC;
-    cout << endl << "Time elapsed: " << ElapsedSecsHeap << endl;
+//    cout << "\nSelection sort: ";
+//    OurVector = OriginalVector;
+//    clock_t Begin3 = clock();
+//    SelectionSort(OurVector, OurVector.size());
+//    clock_t End3 = clock();
+//    double ElapsedSecsSelection = double(End3 - Begin3) / CLOCKS_PER_SEC;
+//    cout << endl << "Time elapsed: " << ElapsedSecsSelection << endl;
+
+
+//    cout << "\nStandard library sort: ";
+//    OurVector = OriginalVector;
+//    clock_t Begin4 = clock();
+//    SelectionSort(OurVector, OurVector.size());
+//    clock_t End4 = clock();
+//    double ElapsedSecsStandardLibrary = double(End4 - Begin4) / CLOCKS_PER_SEC;
+//    cout << endl << "Time elapsed: " << ElapsedSecsStandardLibrary << endl;
+
+
+//    cout << "\nBinary search tree sort: ";
+//    OurVector = OriginalVector;
+//    BinarySearchTreeSort(OurVector);
+
+
+//    cout << "\nHeap sort: ";
+//    OurVector = OriginalVector;
+//    clock_t Begin5 = clock();
+//    HeapSort(OurVector);
+//    clock_t End5 = clock();
+//    double ElapsedSecsHeap = double(End5 - Begin5) / CLOCKS_PER_SEC;
+//    cout << endl << "Time elapsed: " << ElapsedSecsHeap << endl;
 
 
     return 0;
