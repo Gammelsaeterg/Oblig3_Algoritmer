@@ -22,31 +22,31 @@ void MergeSort(vector<T> &VectorIn, unsigned int VectorSize)
     {
            Lower1 = 0;
            k = 0;
-           while (Lower1+Size < VectorSize)
+           while (Lower1 + Size < VectorSize)
            {
               Upper1 = Lower1 + Size - 1;
               Lower2 = Upper1 + 1;
               Upper2 = (Lower2 + Size - 1 < VectorSize) ? Lower2 + Size - 1 : VectorSize - 1;
-              for ( i= Lower1, j = Lower2; i <= Upper1 && j <= Upper2; k++)
+              for (i = Lower1, j = Lower2; i <= Upper1 && j <= Upper2; k++)
                  if (VectorIn[i] < VectorIn[j])
-                    ExtraVector[k]=VectorIn[i++];
+                    ExtraVector[k] = VectorIn[i++];
                  else
                     ExtraVector[k] = VectorIn[j++];
 
-              for (; i<=Upper1; k++)
+              for (; i<= Upper1; k++)
                  ExtraVector[k] = VectorIn[i++];
-              for (; j<=Upper2; k++)
+              for (; j<= Upper2; k++)
                  ExtraVector[k] = VectorIn[j++];
 
               Lower1 = Upper2+1;
            } // endwhile
 
-           for (i=Lower1; k<VectorSize; i++)
+           for (i = Lower1; k < VectorSize; i++)
               ExtraVector[k++] = VectorIn[i];
            for (i = 0; i < VectorSize; i++)
               VectorIn[i] = ExtraVector[i];
 
-           Size = Size*2;
+           Size = Size * 2;
 
        }
 }
