@@ -356,8 +356,8 @@ public:
         std::chrono::duration<double> ElapsedSecs = End - Start;
         std::time_t EndTime = std::chrono::system_clock::to_time_t(End);
 
-        std::cout << "finished computation at " << std::ctime(&EndTime)
-                      << "elapsed time: " << ElapsedSecs.count() << "s\n";
+        std::cout << "Finished computation at " << std::ctime(&EndTime)
+                      << "Elapsed time: " << ElapsedSecs.count() << "s\n";
         RemoveSubtree(root);
     }
 
