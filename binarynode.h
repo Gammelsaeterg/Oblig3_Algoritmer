@@ -4,6 +4,7 @@
 #include <iostream>
 #include <math.h>
 #include <ctime>
+#include <chrono>
 
 using namespace std;
 
@@ -337,20 +338,26 @@ private:
 public:
     Node* root;
 
-    clock_t Begin;
-    clock_t End;
+    //clock_t Begin;
+    //clock_t End;
+    std::chrono::_V2::system_clock::time_point Start;
+    std::chrono::_V2::system_clock::time_point End;
 
     BinarySearchTree()
     {
-        Begin = clock();
+        Start = std::chrono::system_clock::now();
+        //Begin = clock();
         root = nullptr;
     }
 
     ~BinarySearchTree()
     {
-        End = clock();
-        double ElapsedSecs = double(End - Begin) / CLOCKS_PER_SEC;
-        cout << endl << "Time elapsed: " << ElapsedSecs << endl;
+        End = std::chrono::system_clock::now();
+        std::chrono::duration<double> ElapsedSecs = End - Start;
+        std::time_t EndTime = std::chrono::system_clock::to_time_t(End);
+
+        std::cout << "finished computation at " << std::ctime(&EndTime)
+                      << "elapsed time: " << ElapsedSecs.count() << "s\n";
         RemoveSubtree(root);
     }
 

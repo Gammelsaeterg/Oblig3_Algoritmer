@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <iomanip>
+#include <chrono>
 
 #include "binarynode.h"
 
@@ -143,20 +144,19 @@ int main()
     //    }
 
 
-    cout << "Heap sort: ";
-    int PowerTo = 8;
-    for (int i = 1; i < PowerTo; ++i)
-    {
-        int OurVectorSize = static_cast<int>(pow(10, i));
-        vector<int> OurVector = RandomVector<int>(OurVectorSize);
-        clock_t Begin = clock();
-        HeapSort(OurVector);
-        clock_t End = clock();
-        double ElapsedSecs = double(End - Begin) / CLOCKS_PER_SEC;
-        cout << "Time to sort with 10 power to: " << i;
-        cout << endl << "Time elapsed: " << setprecision(5) << ElapsedSecs << endl;
-    }
-
+//    cout << "Heap sort: ";
+//    int PowerTo = 8;
+//    for (int i = 1; i < PowerTo; ++i)
+//    {
+//        int OurVectorSize = static_cast<int>(pow(10, i));
+//        vector<int> OurVector = RandomVector<int>(OurVectorSize);
+//        clock_t Begin = clock();
+//        HeapSort(OurVector);
+//        clock_t End = clock();
+//        double ElapsedSecs = double(End - Begin) / CLOCKS_PER_SEC;
+//        cout << "Time to sort with 10 power to: " << i;
+//        cout << endl << "Time elapsed: " << setprecision(5) << ElapsedSecs << endl;
+//    }
 
 
 
@@ -165,58 +165,77 @@ int main()
 
 ////  All sorts
 
-//    int Power = 1;
-//    int OurVectorSize = static_cast<int>(pow(10, Power));
-//    vector<int> OurVector = RandomVector<int>(OurVectorSize);
-//    vector<int> OriginalVector = OurVector;
+    int Power = 5;
+    cout << "Testing algorithms based on 10 power to " << Power << ".\n\n";
+    int OurVectorSize = static_cast<int>(pow(10, Power));
+    vector<int> OurVector = RandomVector<int>(OurVectorSize);
+    vector<int> OriginalVector = OurVector;
 
-//    cout << "Merge sort: ";
-//    clock_t Begin1 = clock();
-//    MergeSort(OurVector, OurVector.size());
-//    clock_t End1 = clock();
-//    double ElapsedSecsMerge = double(End1 - Begin1) / CLOCKS_PER_SEC;
-//    cout << endl << "Time elapsed: " << ElapsedSecsMerge << endl;
+    cout << "Merge sort: ";
+    auto Start1 = std::chrono::system_clock::now();
+    MergeSort(OurVector, OurVector.size());
+    auto End1 = std::chrono::system_clock::now();
+    std::chrono::duration<double> ElapsedSecsMerge = End1 - Start1;
+    std::time_t EndTime1 = std::chrono::system_clock::to_time_t(End1);
 
-
-//    cout << "\nInsertion sort: ";
-//    OurVector = OriginalVector;
-//    clock_t Begin2 = clock();
-//    InsertionSort(OurVector, OurVector.size());
-//    clock_t End2 = clock();
-//    double ElapsedSecsInsertion = double(End2 - Begin2) / CLOCKS_PER_SEC;
-//    cout << endl << "Time elapsed: " << ElapsedSecsInsertion << endl;
+    std::cout << "Finished computation at " << std::ctime(&EndTime1)
+                  << "Elapsed time: " << ElapsedSecsMerge.count() << "s\n";
 
 
-//    cout << "\nSelection sort: ";
-//    OurVector = OriginalVector;
-//    clock_t Begin3 = clock();
-//    SelectionSort(OurVector, OurVector.size());
-//    clock_t End3 = clock();
-//    double ElapsedSecsSelection = double(End3 - Begin3) / CLOCKS_PER_SEC;
-//    cout << endl << "Time elapsed: " << ElapsedSecsSelection << endl;
+
+    cout << "\nInsertion sort: ";
+    OurVector = OriginalVector;
+    auto Start2 = std::chrono::system_clock::now();
+    InsertionSort(OurVector, OurVector.size());
+    auto End2 = std::chrono::system_clock::now();
+    std::chrono::duration<double> ElapsedSecsInsertion = End2 - Start2;
+    std::time_t EndTime2 = std::chrono::system_clock::to_time_t(End1);
+
+    std::cout << "Finished computation at " << std::ctime(&EndTime2)
+                  << "Elapsed time: " << ElapsedSecsInsertion.count() << "s\n";
 
 
-//    cout << "\nStandard library sort: ";
-//    OurVector = OriginalVector;
-//    clock_t Begin4 = clock();
-//    SelectionSort(OurVector, OurVector.size());
-//    clock_t End4 = clock();
-//    double ElapsedSecsStandardLibrary = double(End4 - Begin4) / CLOCKS_PER_SEC;
-//    cout << endl << "Time elapsed: " << ElapsedSecsStandardLibrary << endl;
+
+    cout << "\nSelection sort: ";
+    OurVector = OriginalVector;
+    auto Start3 = std::chrono::system_clock::now();
+    SelectionSort(OurVector, OurVector.size());
+    auto End3 = std::chrono::system_clock::now();
+    std::chrono::duration<double> ElapsedSecsSelection = End3 - Start3;
+    std::time_t EndTime3 = std::chrono::system_clock::to_time_t(End1);
+
+    std::cout << "Finished computation at " << std::ctime(&EndTime3)
+                  << "Elapsed time: " << ElapsedSecsSelection.count() << "s\n";
 
 
-//    cout << "\nBinary search tree sort: ";
-//    OurVector = OriginalVector;
-//    BinarySearchTreeSort(OurVector);
+
+    cout << "\nStandard library sort: ";
+    OurVector = OriginalVector;
+    auto Start4 = std::chrono::system_clock::now();
+    StandardLibrarySort(OurVector);
+    auto End4 = std::chrono::system_clock::now();
+    std::chrono::duration<double> ElapsedSecsStandardLibrary = End4 - Start4;
+    std::time_t EndTime4 = std::chrono::system_clock::to_time_t(End4);
+
+    std::cout << "Finished computation at " << std::ctime(&EndTime4)
+                  << "Elapsed time: " << ElapsedSecsStandardLibrary.count() << "s\n";
 
 
-//    cout << "\nHeap sort: ";
-//    OurVector = OriginalVector;
-//    clock_t Begin5 = clock();
-//    HeapSort(OurVector);
-//    clock_t End5 = clock();
-//    double ElapsedSecsHeap = double(End5 - Begin5) / CLOCKS_PER_SEC;
-//    cout << endl << "Time elapsed: " << ElapsedSecsHeap << endl;
+
+    cout << "\nBinary search tree sort: ";
+    OurVector = OriginalVector;
+    BinarySearchTreeSort(OurVector);
+    auto Start5 = std::chrono::system_clock::now();
+    cout << "\nHeap sort: ";
+    OurVector = OriginalVector;
+    auto End5 = std::chrono::system_clock::now();
+    std::chrono::duration<double> ElapsedSecsHeap = End5 - Start5;
+    std::time_t EndTime5 = std::chrono::system_clock::to_time_t(End5);
+
+    std::cout << "Finished computation at " << std::ctime(&EndTime5)
+                  << "Elapsed time: " << ElapsedSecsHeap.count() << "s\n";
+
+
 
 
     return 0;
